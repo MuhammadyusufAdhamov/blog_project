@@ -18,7 +18,7 @@ COPY --from=builder /app/migrate ./migrate
 COPY migrations ./migrations
 COPY templates ./templates
 
-EXPOSE 8000
+EXPOSE 8007
 
 CMD ["/app/main"]
 
