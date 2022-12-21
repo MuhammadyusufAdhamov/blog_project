@@ -1,0 +1,24 @@
+DB_URL=postgresql://postgres:7@localhost:5432/blog_projects?sslmode=disable
+
+swag-init:
+	swag init -g api/api.go -o api/docs
+
+start:
+	go run main.go
+
+migrateup:
+	migrate -path migrations -database "$(DB_URL)" -verbose up
+
+migrateup1:
+	migrate -path migrations -database "$(DB_URL)" -verbose up 1
+
+migratedown:
+	migrate -path migrations -database "$(DB_URL)" -verbose down
+
+migratedown1:
+	migrate -path migrations -database "$(DB_URL)" -verbose down 1
+
+local-up:
+	docker compose --env-file ./.env.docker up -d
+
+.PHONY: start migrateup migratedown
