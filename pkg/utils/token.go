@@ -4,7 +4,8 @@ import (
 	"errors"
 	"time"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/config"
+	"blog_project/config"
+
 	"github.com/golang-jwt/jwt"
 )
 

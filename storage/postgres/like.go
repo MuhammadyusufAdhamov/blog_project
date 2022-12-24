@@ -1,7 +1,8 @@
 package postgres
 
 import (
-	"github.com/MuhammadyusufAdhamov/blog_project/storage/repo"
+	"blog_project/storage/repo"
+
 	"github.com/jmoiron/sqlx"
 )
 
@@ -35,7 +36,6 @@ func (lr *likeRepo) Create(l *repo.Like) (*repo.Like, error) {
 
 	return l, nil
 }
-
 
 func (cr *likeRepo) Get(userID, postID int64) (*repo.Like, error) {
 	var result repo.Like

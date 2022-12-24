@@ -3,7 +3,8 @@ package postgres
 import (
 	"fmt"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/storage/repo"
+	"blog_project/storage/repo"
+
 	"github.com/jmoiron/sqlx"
 )
 
@@ -14,7 +15,7 @@ type userRepo struct {
 func NewUser(db *sqlx.DB) repo.UserStorageI {
 	return &userRepo{
 		db: db,
-	} 
+	}
 }
 
 func (ur *userRepo) Create(user *repo.User) (*repo.User, error) {
@@ -63,7 +64,7 @@ func (ur *userRepo) Activate(id int64) error {
 	if err != nil {
 		return err
 	}
-	return nil 
+	return nil
 }
 
 func (ur *userRepo) Get(id int64) (*repo.User, error) {
@@ -114,7 +115,7 @@ func (ur *userRepo) GetAll(params *repo.GetAllUsersParams) (*repo.GetAllUsersRes
 
 	offset := (params.Page - 1) * params.Limit
 
-	limit := fmt.Sprintf(" limit %d offset %d ", params.Limit,offset)
+	limit := fmt.Sprintf(" limit %d offset %d ", params.Limit, offset)
 
 	filter := ""
 	if params.Search != "" {
@@ -122,7 +123,7 @@ func (ur *userRepo) GetAll(params *repo.GetAllUsersParams) (*repo.GetAllUsersRes
 		filter += fmt.Sprintf(`
 		where first_name ilike '%s' or last_name ilike '%s' or email ilike '%s'
 		or username ilike '%s' or phone_number ilike '%s'`,
-		str, str, str, str, str,
+			str, str, str, str, str,
 		)
 	}
 
@@ -252,7 +253,7 @@ func (ur *userRepo) UpdateUser(user *repo.User) (*repo.User, error) {
 			where id=$10
 			returning id
 			`
-	
+
 	row := ur.db.QueryRow(
 		query,
 		user.FirstName,
@@ -277,7 +278,7 @@ func (ur *userRepo) UpdateUser(user *repo.User) (*repo.User, error) {
 	return &result, nil
 }
 
-func(ur *userRepo) DeleteUser(user *repo.User) (*repo.User, error) {
+func (ur *userRepo) DeleteUser(user *repo.User) (*repo.User, error) {
 	var result repo.User
 	// DeletedAt := time.Now()
 

@@ -4,9 +4,10 @@ import (
 	"fmt"
 	"log"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/api"
-	"github.com/MuhammadyusufAdhamov/blog_project/config"
-	"github.com/MuhammadyusufAdhamov/blog_project/storage"
+	"blog_project/api"
+	"blog_project/config"
+	"blog_project/storage"
+
 	"github.com/go-redis/redis/v9"
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"

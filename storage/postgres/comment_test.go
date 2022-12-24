@@ -3,7 +3,8 @@ package postgres_test
 import (
 	"testing"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/storage/repo"
+	"blog_project/storage/repo"
+
 	"github.com/bxcodec/faker/v4"
 	"github.com/stretchr/testify/require"
 )
@@ -13,8 +14,8 @@ func createComment(t *testing.T) *repo.Comment {
 	post := createPost(t)
 	comment, err := strg.Comment().Create(&repo.Comment{
 		Description: faker.Sentence(),
-		UserID: user.ID,
-		PostID: post.ID,
+		UserID:      user.ID,
+		PostID:      post.ID,
 	})
 	require.NoError(t, err)
 	require.NotEmpty(t, comment)
@@ -57,7 +58,7 @@ func TestGetAllComments(t *testing.T) {
 
 	result, err := strg.Comment().GetAll(&repo.GetAllCommentsParams{
 		Limit: 3,
-		Page: 1,
+		Page:  1,
 	})
 	require.NoError(t, err)
 	require.GreaterOrEqual(t, int(result.Count), 1)

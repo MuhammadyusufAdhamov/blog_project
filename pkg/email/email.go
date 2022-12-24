@@ -6,18 +6,18 @@ import (
 	"html/template"
 	"net/smtp"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/config"
+	"blog_project/config"
 )
 
 type SendEmailRequest struct {
-	To []string
-	Type string
-	Body map[string]string
+	To      []string
+	Type    string
+	Body    map[string]string
 	Subject string
 }
 
 const (
-	VerificationEmail = "verification_email"
+	VerificationEmail   = "verification_email"
 	ForgotPasswordEmail = "forgot_password_email"
 )
 

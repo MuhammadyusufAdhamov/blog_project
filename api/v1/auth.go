@@ -8,10 +8,11 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/api/models"
-	emailPkg "github.com/MuhammadyusufAdhamov/blog_project/pkg/email"
-	"github.com/MuhammadyusufAdhamov/blog_project/pkg/utils"
-	"github.com/MuhammadyusufAdhamov/blog_project/storage/repo"
+	"blog_project/api/models"
+	emailPkg "blog_project/pkg/email"
+	"blog_project/pkg/utils"
+	"blog_project/storage/repo"
+
 	"github.com/gin-gonic/gin"
 )
 

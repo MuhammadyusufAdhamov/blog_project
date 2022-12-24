@@ -1,4 +1,4 @@
-module github.com/MuhammadyusufAdhamov/blog_project
+module blog_project
 
 go 1.19
 

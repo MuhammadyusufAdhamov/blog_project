@@ -3,7 +3,8 @@ package postgres_test
 import (
 	"testing"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/storage/repo"
+	"blog_project/storage/repo"
+
 	"github.com/bxcodec/faker/v4"
 	"github.com/stretchr/testify/require"
 )
@@ -31,7 +32,7 @@ func TestGetAllCategories(t *testing.T) {
 
 	result, err := strg.Category().GetAll(&repo.GetAllCategoriesParams{
 		Limit: 10,
-		Page: 1,
+		Page:  1,
 	})
 
 	require.NoError(t, err)

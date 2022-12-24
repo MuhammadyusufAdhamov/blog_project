@@ -4,8 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/api/models"
-	"github.com/MuhammadyusufAdhamov/blog_project/storage/repo"
+	"blog_project/api/models"
+	"blog_project/storage/repo"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -70,10 +71,10 @@ func (h *handlerV1) CreatePost(c *gin.Context) {
 	}
 
 	resp, err := h.storage.Post().Create(&repo.Post{
-		Title: req.Title,
+		Title:       req.Title,
 		Description: req.Description,
-		ImageUrl: req.ImageUrl,
-		CategoryID: req.CategoryID,
+		ImageUrl:    req.ImageUrl,
+		CategoryID:  req.CategoryID,
 	})
 	if err != nil {
 		c.JSON(http.StatusInternalServerError, models.ErrorResponse{
@@ -83,7 +84,7 @@ func (h *handlerV1) CreatePost(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, models.Post{
-		ID: resp.ID,
+		ID:          resp.ID,
 		Title:       resp.Title,
 		Description: resp.Description,
 		ImageUrl:    resp.ImageUrl,
@@ -190,11 +191,11 @@ func (h *handlerV1) GetAllPosts(c *gin.Context) {
 
 func validateGetAllPostsParams(c *gin.Context) (*models.GetAllPostsParams, error) {
 	var (
-		limit int=10
-		page int=1
-		err error
+		limit              int = 10
+		page               int = 1
+		err                error
 		userID, categoryID int
-		sortByDate string="desc"
+		sortByDate         string = "desc"
 	)
 
 	if c.Query("limit") != "" {
@@ -227,7 +228,7 @@ func validateGetAllPostsParams(c *gin.Context) (*models.GetAllPostsParams, error
 
 	if c.Query("sort_by_date") != "" &&
 		(c.Query("sort_by_date") == "desc" || c.Query("sort_by_date") == "asc") {
-			sortByDate = c.Query("sort_by_date")
+		sortByDate = c.Query("sort_by_date")
 	}
 	return &models.GetAllPostsParams{
 		Limit:      int32(limit),
@@ -236,7 +237,7 @@ func validateGetAllPostsParams(c *gin.Context) (*models.GetAllPostsParams, error
 		UserID:     int64(userID),
 		CategoryID: int64(categoryID),
 		SortByData: sortByDate,
-	}, nil 
+	}, nil
 }
 
 func getPostsResponse(data *repo.GetAllPostsResult) *models.GetAllPostsResponse {

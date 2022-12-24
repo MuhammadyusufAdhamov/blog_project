@@ -6,8 +6,9 @@ import (
 	"os"
 	"testing"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/config"
-	"github.com/MuhammadyusufAdhamov/blog_project/storage"
+	"blog_project/config"
+	"blog_project/storage"
+
 	"github.com/jmoiron/sqlx"
 	_ "github.com/lib/pq"
 )
