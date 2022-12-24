@@ -4,8 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/api/models"
-	"github.com/MuhammadyusufAdhamov/blog_project/storage/repo"
+	"blog_project/api/models"
+	"blog_project/storage/repo"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -30,7 +31,7 @@ func (h *handlerV1) CreateUser(c *gin.Context) {
 	}
 
 	resp, err := h.storage.User().Create(&repo.User{
-		FirstName: 		 req.FirstName,
+		FirstName:       req.FirstName,
 		LastName:        req.LastName,
 		PhoneNumber:     req.PhoneNumber,
 		Email:           req.Email,
@@ -44,7 +45,7 @@ func (h *handlerV1) CreateUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
-	
+
 	c.JSON(http.StatusCreated, parseUserModel(resp))
 }
 
@@ -90,8 +91,8 @@ func (h *handlerV1) GetAllUsers(c *gin.Context) {
 	}
 
 	result, err := h.storage.User().GetAll(&repo.GetAllUsersParams{
-		Page: req.Page,
-		Limit: req.Limit,
+		Page:   req.Page,
+		Limit:  req.Limit,
 		Search: req.Search,
 	})
 	if err != nil {
@@ -101,8 +102,6 @@ func (h *handlerV1) GetAllUsers(c *gin.Context) {
 
 	c.JSON(http.StatusOK, getUsersResponse(result))
 }
-
-
 
 // @Router /user/{id} [delete]
 // @Summary delete user by id

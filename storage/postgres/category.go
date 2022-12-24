@@ -4,7 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/storage/repo"
+	"blog_project/storage/repo"
+
 	"github.com/jmoiron/sqlx"
 )
 
@@ -40,7 +41,7 @@ func (cr *categoryRepo) Create(category *repo.Category) (*repo.Category, error) 
 	return category, nil
 }
 
-func(cr *categoryRepo) Get(id int64) (*repo.Category, error) {
+func (cr *categoryRepo) Get(id int64) (*repo.Category, error) {
 	var result repo.Category
 
 	quey := `
@@ -85,9 +86,9 @@ func (cr *categoryRepo) GetAll(params *repo.GetAllCategoriesParams) (*repo.GetAl
 			title,
 			created_at
 		from categories
-	`	+ filter + `
+	` + filter + `
 	order by created_at desc
-	`	+ limit
+	` + limit
 
 	rows, err := cr.db.Query(query)
 	if err != nil {
@@ -120,13 +121,12 @@ func (cr *categoryRepo) GetAll(params *repo.GetAllCategoriesParams) (*repo.GetAl
 	return &result, nil
 }
 
-
 func (ur *categoryRepo) UpdateCategory(category *repo.Category) (*repo.Category, error) {
 	query := `update categories set title=$1 where id=$2
 			returning created_at
 			`
-	
-	err := ur.db.QueryRow(query,category.Title,category.ID,).Scan(&category.CreatedAt)
+
+	err := ur.db.QueryRow(query, category.Title, category.ID).Scan(&category.CreatedAt)
 	if err != nil {
 		return nil, err
 	}
@@ -134,7 +134,7 @@ func (ur *categoryRepo) UpdateCategory(category *repo.Category) (*repo.Category,
 	return category, nil
 }
 
-func(ur *categoryRepo) DeleteCategory(id int64) error {
+func (ur *categoryRepo) DeleteCategory(id int64) error {
 	query := `delete from categories where id=$1`
 
 	result, err := ur.db.Exec(query, id)

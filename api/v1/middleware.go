@@ -4,12 +4,13 @@ import (
 	"errors"
 	"net/http"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/pkg/utils"
+	"blog_project/pkg/utils"
+
 	"github.com/gin-gonic/gin"
 )
 
 const (
-	authorizationHeaderKey = "authorization"
+	authorizationHeaderKey  = "authorization"
 	authorizationPayLoadKey = "authorization_payload"
 )
 

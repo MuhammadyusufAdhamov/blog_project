@@ -4,8 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/api/models"
-	"github.com/MuhammadyusufAdhamov/blog_project/storage/repo"
+	"blog_project/api/models"
+	"blog_project/storage/repo"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,7 +20,7 @@ import (
 // @Param comment body models.CreateCommentRequest true "comment"
 // @Success 201 {object} models.Comment
 // @Failure 500 {object} models.ErrorResponse
-func(h *handlerV1) CreateComment(c *gin.Context) {
+func (h *handlerV1) CreateComment(c *gin.Context) {
 	var (
 		req models.CreateCommentRequest
 	)
@@ -37,16 +38,16 @@ func(h *handlerV1) CreateComment(c *gin.Context) {
 	}
 
 	resp, err := h.storage.Comment().Create(&repo.Comment{
-		Description:	req.Description,
-		PostID: req.PostID,
-		UserID: payload.UserID,
+		Description: req.Description,
+		PostID:      req.PostID,
+		UserID:      payload.UserID,
 	})
 	if err != nil {
 		c.JSON(http.StatusBadRequest, errorResponse(err))
 		return
 	}
 
-	comment:= parseCommentModel(resp)
+	comment := parseCommentModel(resp)
 	c.JSON(http.StatusCreated, comment)
 }
 
@@ -59,7 +60,7 @@ func(h *handlerV1) CreateComment(c *gin.Context) {
 // @Param filter query models.GetAllCommentsParams false "Filter"
 // @Success 200 {object} models.GetAllCommentsResponse
 // @Failure 500 {object} models.ErrorResponse
-func(h *handlerV1) GetAllComments(c *gin.Context) {
+func (h *handlerV1) GetAllComments(c *gin.Context) {
 	req, err := validateGetAllCommentsParams(c)
 	if err != nil {
 		c.JSON(http.StatusBadRequest, errorResponse(err))
@@ -67,8 +68,8 @@ func(h *handlerV1) GetAllComments(c *gin.Context) {
 	}
 
 	result, err := h.storage.Comment().GetAll(&repo.GetAllCommentsParams{
-		Page: req.Page,
-		Limit: req.Limit,
+		Page:   req.Page,
+		Limit:  req.Limit,
 		UserID: req.UserID,
 		PostID: req.PostID,
 	})
@@ -105,7 +106,6 @@ func (h *handlerV1) GetComment(c *gin.Context) {
 	c.JSON(http.StatusOK, parseCommentModel(resp))
 }
 
-
 // @Router /comment/{id} [delete]
 // @Summary delete comment by id
 // @Description Delete comment by id
@@ -135,9 +135,9 @@ func (h *handlerV1) DeleteComment(c *gin.Context) {
 
 func validateGetAllCommentsParams(c *gin.Context) (*models.GetAllCommentsParams, error) {
 	var (
-		limit  int=10
-		page   int=1
-		err error
+		limit          int = 10
+		page           int = 1
+		err            error
 		userID, postID int
 	)
 
@@ -161,7 +161,7 @@ func validateGetAllCommentsParams(c *gin.Context) (*models.GetAllCommentsParams,
 			return nil, err
 		}
 	}
-	
+
 	if c.Query("post_id") != "" {
 		postID, err = strconv.Atoi(c.Query("post_id"))
 		if err != nil {
@@ -170,17 +170,17 @@ func validateGetAllCommentsParams(c *gin.Context) (*models.GetAllCommentsParams,
 	}
 
 	return &models.GetAllCommentsParams{
-		Limit: int32(limit),
-		Page: int32(page),
+		Limit:  int32(limit),
+		Page:   int32(page),
 		UserID: int64(userID),
 		PostID: int64(postID),
 	}, nil
 }
 
 func getCommentsResponse(data *repo.GetAllCommentsResult) *models.GetAllCommentsResponse {
-	response := models.GetAllCommentsResponse {
+	response := models.GetAllCommentsResponse{
 		Comments: make([]*models.Comment, 0),
-		Count: data.Count,
+		Count:    data.Count,
 	}
 
 	for _, comment := range data.Comments {
@@ -193,7 +193,7 @@ func getCommentsResponse(data *repo.GetAllCommentsResult) *models.GetAllComments
 
 func parseCommentModel(comment *repo.Comment) models.Comment {
 	return models.Comment{
-		ID: comment.ID,
+		ID:     comment.ID,
 		UserID: comment.UserID,
 	}
 }

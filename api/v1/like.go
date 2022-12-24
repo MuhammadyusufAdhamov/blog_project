@@ -4,8 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/api/models"
-	"github.com/MuhammadyusufAdhamov/blog_project/storage/repo"
+	"blog_project/api/models"
+	"blog_project/storage/repo"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -19,7 +20,7 @@ import (
 // @Param like body models.CreateLikeRequest true "like"
 // @Success 201 {object} models.Like
 // @Failure 500 {object} models.ErrorResponse
-func(h *handlerV1) CreateLike(c *gin.Context) {
+func (h *handlerV1) CreateLike(c *gin.Context) {
 	var (
 		req models.CreateLikeRequest
 	)
@@ -47,7 +48,7 @@ func(h *handlerV1) CreateLike(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, models.Like{
-		ID: resp.ID,
+		ID:     resp.ID,
 		PostID: resp.PostID,
 		UserID: resp.UserID,
 		Status: resp.Status,
@@ -84,7 +85,7 @@ func (h *handlerV1) GetLike(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, models.Like{
-		ID: resp.ID,
+		ID:     resp.ID,
 		PostID: resp.PostID,
 		UserID: resp.UserID,
 		Status: resp.Status,

@@ -4,7 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/storage/repo"
+	"blog_project/storage/repo"
+
 	"github.com/jmoiron/sqlx"
 )
 
@@ -13,12 +14,12 @@ type commentRepo struct {
 }
 
 func NewComment(db *sqlx.DB) repo.CommentStorageI {
-	return &commentRepo {
+	return &commentRepo{
 		db: db,
 	}
 }
 
-func (pr *commentRepo) Create(comment *repo.Comment)(*repo.Comment, error) {
+func (pr *commentRepo) Create(comment *repo.Comment) (*repo.Comment, error) {
 	query := `
 		insert into comments(
 			user_id,
@@ -76,7 +77,7 @@ func (ur *commentRepo) Get(id int64) (*repo.Comment, error) {
 	return &result, nil
 }
 
-func(pr *commentRepo) GetAll(params *repo.GetAllCommentsParams) (*repo.GetAllCommentsResult, error) {
+func (pr *commentRepo) GetAll(params *repo.GetAllCommentsParams) (*repo.GetAllCommentsResult, error) {
 	result := repo.GetAllCommentsResult{
 		Comments: make([]*repo.Comment, 0),
 	}
@@ -87,7 +88,7 @@ func(pr *commentRepo) GetAll(params *repo.GetAllCommentsParams) (*repo.GetAllCom
 
 	filter := " where true "
 	if params.UserID != 0 {
-		filter += fmt.Sprintf(" and c.user_id=%d ",params.UserID)
+		filter += fmt.Sprintf(" and c.user_id=%d ", params.UserID)
 	}
 
 	if params.PostID != 0 {
@@ -153,8 +154,8 @@ func (ur *commentRepo) UpdateComment(comment *repo.Comment) (*repo.Comment, erro
 	query := `update comments set description=$1 where id=$2
 			returning created_at
 			`
-	
-	err := ur.db.QueryRow(query,comment.Description,comment.ID).Scan(&comment.CreatedAt)
+
+	err := ur.db.QueryRow(query, comment.Description, comment.ID).Scan(&comment.CreatedAt)
 	if err != nil {
 		return nil, err
 	}
@@ -162,7 +163,7 @@ func (ur *commentRepo) UpdateComment(comment *repo.Comment) (*repo.Comment, erro
 	return comment, nil
 }
 
-func(ur *commentRepo) DeleteComment(id int64) error {
+func (ur *commentRepo) DeleteComment(id int64) error {
 	query := `delete from comments where id=$1`
 
 	result, err := ur.db.Exec(query, id)

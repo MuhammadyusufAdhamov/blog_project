@@ -3,28 +3,29 @@ package v1
 import (
 	"strconv"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/api/models"
-	"github.com/MuhammadyusufAdhamov/blog_project/config"
-	"github.com/MuhammadyusufAdhamov/blog_project/storage"
+	"blog_project/api/models"
+	"blog_project/config"
+	"blog_project/storage"
+
 	"github.com/gin-gonic/gin"
 )
 
-type handlerV1 struct{
-	cfg *config.Config
-	storage storage.StorageI
+type handlerV1 struct {
+	cfg      *config.Config
+	storage  storage.StorageI
 	InMemory storage.InMemoryStorageI
 }
 
 type HabdlerV1Options struct {
-	Cfg *config.Config
-	Storage storage.StorageI
+	Cfg      *config.Config
+	Storage  storage.StorageI
 	InMemory storage.InMemoryStorageI
 }
 
 func New(options *HabdlerV1Options) *handlerV1 {
 	return &handlerV1{
-		cfg : options.Cfg,
-		storage: options.Storage,
+		cfg:      options.Cfg,
+		storage:  options.Storage,
 		InMemory: options.InMemory,
 	}
 }
@@ -38,12 +39,12 @@ func errorResponse(err error) *models.ErrorResponse {
 func validateGetAllParams(c *gin.Context) (*models.GetAllParams, error) {
 	var (
 		limit int = 10
-		page int = 1
-		err error
+		page  int = 1
+		err   error
 	)
 
 	if c.Query("limit") != "" {
-		limit,err = strconv.Atoi(c.Query("limit"))
+		limit, err = strconv.Atoi(c.Query("limit"))
 		if err != nil {
 			return nil, err
 		}
@@ -57,8 +58,8 @@ func validateGetAllParams(c *gin.Context) (*models.GetAllParams, error) {
 	}
 
 	return &models.GetAllParams{
-		Limit: int32(limit),
-		Page: int32(page),
+		Limit:  int32(limit),
+		Page:   int32(page),
 		Search: c.Query("search"),
 	}, nil
 }

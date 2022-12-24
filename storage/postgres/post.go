@@ -4,7 +4,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/storage/repo"
+	"blog_project/storage/repo"
+
 	"github.com/jmoiron/sqlx"
 )
 
@@ -86,7 +87,7 @@ func (ur *postRepo) Get(id int64) (*repo.Post, error) {
 }
 
 func (pr *postRepo) GetAll(params *repo.GetAllPostsParams) (*repo.GetAllPostsResult, error) {
-	result := repo.GetAllPostsResult {
+	result := repo.GetAllPostsResult{
 		Posts: make([]*repo.Post, 0),
 	}
 
@@ -161,7 +162,6 @@ func (pr *postRepo) GetAll(params *repo.GetAllPostsParams) (*repo.GetAllPostsRes
 	return &result, nil
 }
 
-
 func (ur *postRepo) UpdatePost(post *repo.Post) (*repo.Post, error) {
 	query := `update posts set
 				title=$1,
@@ -172,7 +172,7 @@ func (ur *postRepo) UpdatePost(post *repo.Post) (*repo.Post, error) {
 			where id=$6
 			returning created_at
 			`
-	
+
 	row := ur.db.QueryRow(
 		query,
 		post.Title,
@@ -193,7 +193,7 @@ func (ur *postRepo) UpdatePost(post *repo.Post) (*repo.Post, error) {
 	return post, nil
 }
 
-func(ur *postRepo) DeletePost(id int64) error {
+func (ur *postRepo) DeletePost(id int64) error {
 	query := `delete from posts where id=$1
 			returning id`
 

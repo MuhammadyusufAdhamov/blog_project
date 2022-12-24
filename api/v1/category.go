@@ -4,8 +4,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/MuhammadyusufAdhamov/blog_project/api/models"
-	"github.com/MuhammadyusufAdhamov/blog_project/storage/repo"
+	"blog_project/api/models"
+	"blog_project/storage/repo"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -32,8 +33,8 @@ func (h *handlerV1) GetCategory(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, models.Category{
-		ID: resp.ID,
-		Title: resp.Title,
+		ID:        resp.ID,
+		Title:     resp.Title,
 		CreatedAt: resp.CreatedAt,
 	})
 }
@@ -65,8 +66,8 @@ func (h *handlerV1) CreateCategory(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusCreated, models.Category{
-		ID: resp.ID,
-		Title: resp.Title,
+		ID:        resp.ID,
+		Title:     resp.Title,
 		CreatedAt: resp.CreatedAt,
 	})
 }
@@ -88,8 +89,8 @@ func (h *handlerV1) GetAllCategories(c *gin.Context) {
 	}
 
 	result, err := h.storage.Category().GetAll(&repo.GetAllCategoriesParams{
-		Page: req.Page,
-		Limit: req.Limit,
+		Page:   req.Page,
+		Limit:  req.Limit,
 		Search: req.Search,
 	})
 	if err != nil {
@@ -99,7 +100,6 @@ func (h *handlerV1) GetAllCategories(c *gin.Context) {
 
 	c.JSON(http.StatusOK, getCategoriesResponse(result))
 }
-
 
 // @Router /category/{id} [put]
 // @Summary Update a category
@@ -164,16 +164,16 @@ func (h *handlerV1) GetAllCategories(c *gin.Context) {
 // 	c.JSON(http.StatusOK, parseCategoryModel(resp))
 // }
 
-func getCategoriesResponse(data *repo.GetAllCategoriesResult) *models.GetAllCategoriesResponse{
+func getCategoriesResponse(data *repo.GetAllCategoriesResult) *models.GetAllCategoriesResponse {
 	response := models.GetAllCategoriesResponse{
 		Categories: make([]*models.Category, 0),
-		Count: data.Count,
+		Count:      data.Count,
 	}
 
 	for _, c := range data.Categories {
 		response.Categories = append(response.Categories, &models.Category{
-			ID: c.ID,
-			Title: c.Title,
+			ID:        c.ID,
+			Title:     c.Title,
 			CreatedAt: c.CreatedAt,
 		})
 	}
@@ -183,8 +183,8 @@ func getCategoriesResponse(data *repo.GetAllCategoriesResult) *models.GetAllCate
 
 func parseCategoryModel(category *repo.Category) models.Category {
 	return models.Category{
-		ID:              category.ID,
-		Title: category.Title,
-		CreatedAt:       category.CreatedAt,
+		ID:        category.ID,
+		Title:     category.Title,
+		CreatedAt: category.CreatedAt,
 	}
 }
